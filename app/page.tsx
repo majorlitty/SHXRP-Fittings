@@ -14,7 +14,7 @@ const SLIDES = [
     id: 'shxrp',
     title: 'SHxRP',
     color: '#CB5221', 
-    image: 'public/shxrp-suit.png',
+    image: './shxrp-suit.png',
   },
   {
     id: 'noble',
