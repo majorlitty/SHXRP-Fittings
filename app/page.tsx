@@ -7,6 +7,11 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 
+// Explicitly import images to ensure reliable Next.js bundling on Netlify
+import shxrpImage from '../public/shxrp-suit.png';
+import nobleImage from '../public/noble.png';
+import tariqImage from '../public/tariq.png';
+
 gsap.registerPlugin(ScrollTrigger);
 
 const SLIDES = [
@@ -14,19 +19,19 @@ const SLIDES = [
     id: 'shxrp',
     title: 'SHxRP',
     color: '#CB5221', 
-    image: '/shxrp-suit.png',
+    image: shxrpImage,
   },
   {
     id: 'noble',
     title: 'NOBLE',
     color: '#15201A', 
-    image: '/noble.png',
+    image: nobleImage,
   },
   {
     id: 'tariq',
     title: 'TARIQ',
     color: '#80391d',
-    image: '/tariq.png',
+    image: tariqImage,
   }
 ];
 
