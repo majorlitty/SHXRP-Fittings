@@ -6,6 +6,11 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 
+// Hard-import native images to force Webpack static compilation into the Netlify build bundle (.next/static/media)
+import shxrpImg from '../public/shxrp-suit.png';
+import nobleImg from '../public/noble.png';
+import tariqImg from '../public/tariq.png';
+
 gsap.registerPlugin(ScrollTrigger);
 
 const SLIDES = [
@@ -13,19 +18,19 @@ const SLIDES = [
     id: 'shxrp',
     title: 'SHxRP',
     color: '#CB5221', 
-    image: '/shxrp-suit.png',
+    image: shxrpImg.src, // Extracted .src ensures a raw string URL like /_next/static/media/shxrp-suit.[hash].png
   },
   {
     id: 'noble',
     title: 'NOBLE',
     color: '#15201A', 
-    image: '/noble.png',
+    image: nobleImg.src,
   },
   {
     id: 'tariq',
     title: 'TARIQ',
     color: '#80391d',
-    image: '/tariq.png',
+    image: tariqImg.src,
   }
 ];
 
