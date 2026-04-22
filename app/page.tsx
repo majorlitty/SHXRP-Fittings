@@ -13,7 +13,7 @@ const SLIDES = [
   {
     id: 'shxrp',
     title: 'SHxRP',
-    color: '#CB5221', 
+    color: '#2B161B', // Dark, sophisticated luxury wine/plum
     image: 'https://i.postimg.cc/vHCrfCXW/shxrp-suit.png',
   },
   {
@@ -38,9 +38,22 @@ export default function Home() {
     const slides = gsap.utils.toArray<HTMLElement>('.gsap-slide');
 
     // Initial setup
-    gsap.set(slides, { opacity: 0, y: 40, zIndex: 0 });
-    gsap.set(slides[0], { opacity: 1, y: 0, zIndex: 10 });
+    gsap.set(slides, { opacity: 0, zIndex: 0 }); // Base layer reset
+    gsap.set(slides[0], { opacity: 1, zIndex: 10 });
     
+    // Set up internal elements for their independent entrances
+    slides.forEach((slide, i) => {
+      const text = slide.querySelector('.slide-text');
+      const img = slide.querySelector('.slide-image');
+      if (i === 0) {
+        gsap.set(text, { y: 0, opacity: 1, scale: 1, filter: 'blur(0px)' });
+        gsap.set(img, { y: 0, opacity: 1, scale: 1 });
+      } else {
+        gsap.set(text, { y: 150, opacity: 0, scale: 0.85, filter: 'blur(10px)' });
+        gsap.set(img, { y: 100, opacity: 0, scale: 1.05 });
+      }
+    });
+
     // We create a ScrollTrigger based directly on the 300vh wrapper scrolling natively
     const tl = gsap.timeline({
       scrollTrigger: {
@@ -58,22 +71,42 @@ export default function Home() {
       }
     });
 
+    // Helper functions for highly refined independent internal animations
+    const animateOut = (index: number, label: string) => {
+      const slide = slides[index];
+      const text = slide.querySelector('.slide-text');
+      const img = slide.querySelector('.slide-image');
+      
+      tl.to(slide, { opacity: 0, duration: 1, ease: 'none' }, label);
+      tl.to(text, { y: -100, opacity: 0, scale: 1.05, filter: 'blur(15px)', duration: 1, ease: 'power2.in' }, label);
+      tl.to(img, { y: -60, opacity: 0, scale: 0.95, duration: 1, ease: 'power2.inOut' }, label);
+    };
+
+    const animateIn = (index: number, label: string) => {
+      const slide = slides[index];
+      const text = slide.querySelector('.slide-text');
+      const img = slide.querySelector('.slide-image');
+
+      tl.to(slide, { opacity: 1, zIndex: 10, duration: 1, ease: 'none' }, label);
+      tl.to(text, { y: 0, opacity: 1, scale: 1, filter: 'blur(0px)', duration: 1, ease: 'power2.out' }, label);
+      tl.to(img, { y: 0, opacity: 1, scale: 1, duration: 1, ease: 'power2.out' }, label);
+    };
+
     // We build the timeline in units of duration to distribute over the scroll height.
-    // Transition duration is 1, holding duration is 0.5.
     
     // Initial hold before user starts moving deep
     tl.to({}, { duration: 0.2 });
 
     // Transition 1 (SHxRP out, NOBLE in)
-    tl.to(slides[0], { opacity: 0, y: -40, ease: 'power2.inOut', duration: 1 }, "transition1");
-    tl.to(slides[1], { opacity: 1, y: 0, zIndex: 10, ease: 'power2.inOut', duration: 1 }, "transition1");
+    animateOut(0, "transition1");
+    animateIn(1, "transition1");
 
     // Hold NOBLE
     tl.to({}, { duration: 0.5 }); // Holds position so users can digest the image
 
     // Transition 2 (NOBLE out, TARIQ in)
-    tl.to(slides[1], { opacity: 0, y: -40, ease: 'power2.inOut', duration: 1 }, "transition2");
-    tl.to(slides[2], { opacity: 1, y: 0, zIndex: 10, ease: 'power2.inOut', duration: 1 }, "transition2");
+    animateOut(1, "transition2");
+    animateIn(2, "transition2");
 
     // Hold TARIQ before leaving the pinned container
     tl.to({}, { duration: 0.2 }); 
@@ -96,13 +129,13 @@ export default function Home() {
                 >
                   {/* BIG TEXT */}
                   <div className="absolute top-[22vh] md:top-[15vh] flex items-start justify-center w-full px-4 md:px-8 h-[50vh]">
-                    <h1 className="text-[34vw] md:text-[22vw] leading-none font-display font-medium text-transparent bg-clip-text bg-gradient-to-b from-white/90 to-white/5 whitespace-nowrap tracking-tight">
+                    <h1 className="slide-text text-[34vw] md:text-[22vw] leading-none font-display font-medium text-transparent bg-clip-text bg-gradient-to-b from-white/90 to-white/5 whitespace-nowrap tracking-tight">
                       {slide.title}
                     </h1>
                   </div>
 
                   {/* CHARACTER IMAGE */}
-                  <div className="relative z-20 w-[95vw] md:w-[85vw] lg:w-[900px] h-[78vh] md:h-[95vh] mt-auto origin-bottom flex items-end justify-center">
+                  <div className="slide-image relative z-20 w-[95vw] md:w-[85vw] lg:w-[900px] h-[78vh] md:h-[95vh] mt-auto origin-bottom flex items-end justify-center">
                     <div className="absolute inset-0 flex items-end justify-center">
                       <Image
                         src={slide.image}
@@ -167,14 +200,6 @@ export default function Home() {
           </div>
         </div>
       </main>
-
-      {/* Next content section (verifies scroll passes correctly out of the 300vh block) */}
-      <section className="relative z-10 w-full min-h-screen bg-[#FDFBF7] flex flex-col items-center justify-center text-center p-8 border-t border-[#15201A]/10">
-        <h2 className="text-[#15201A] font-display font-medium text-4xl md:text-6xl mb-6 uppercase tracking-widest">Mastery in Detail</h2>
-        <p className="text-[#15201A]/70 max-w-lg leading-relaxed md:text-lg">
-          Our bespoke journey translates precise measurements into architectural garments. The scrolling narrative has completed.
-        </p>
-      </section>
     </div>
   );
 }
