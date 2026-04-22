@@ -1,15 +1,11 @@
 'use client';
 
 import { useRef, useState } from 'react';
+import Image from 'next/image';
 import { motion } from 'motion/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
-
-// Hard-import native images to force Webpack static compilation into the Netlify build bundle (.next/static/media)
-import shxrpImg from '../public/shxrp-suit.png';
-import nobleImg from '../public/noble.png';
-import tariqImg from '../public/tariq.png';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -18,19 +14,19 @@ const SLIDES = [
     id: 'shxrp',
     title: 'SHxRP',
     color: '#CB5221', 
-    image: shxrpImg.src, // Extracted .src ensures a raw string URL like /_next/static/media/shxrp-suit.[hash].png
+    image: '/shxrp-suit.png',
   },
   {
     id: 'noble',
     title: 'NOBLE',
     color: '#15201A', 
-    image: nobleImg.src,
+    image: '/noble.png',
   },
   {
     id: 'tariq',
     title: 'TARIQ',
     color: '#80391d',
-    image: tariqImg.src,
+    image: '/tariq.png',
   }
 ];
 
@@ -108,10 +104,13 @@ export default function Home() {
                   {/* CHARACTER IMAGE */}
                   <div className="relative z-20 w-[95vw] md:w-[85vw] lg:w-[900px] h-[78vh] md:h-[95vh] mt-auto origin-bottom flex items-end justify-center">
                     <div className="absolute inset-0 flex items-end justify-center">
-                      <img
+                      <Image
                         src={slide.image}
                         alt={`${slide.title} custom suit model`}
-                        className="absolute inset-0 w-full h-full object-contain object-bottom drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
+                        fill
+                        unoptimized
+                        className="object-contain object-bottom drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
+                        priority
                       />
                     </div>
                   </div>
