@@ -14,19 +14,19 @@ const SLIDES = [
     id: 'shxrp',
     title: 'SHxRP',
     color: '#CB5221', 
-    image: './shxrp-suit.png',
+    image: 'https://i.postimg.cc/vHCrfCXW/shxrp-suit.png',
   },
   {
     id: 'noble',
     title: 'NOBLE',
     color: '#15201A', 
-    image: '/noble.png',
+    image: 'https://i.postimg.cc/c19M4vnY/noble.png',
   },
   {
     id: 'tariq',
     title: 'TARIQ',
     color: '#80391d',
-    image: '/tariq.png',
+    image: 'https://i.postimg.cc/66jL58vZ/tariq.png',
   }
 ];
 
